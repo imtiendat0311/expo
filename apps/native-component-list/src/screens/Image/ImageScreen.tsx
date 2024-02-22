@@ -118,6 +118,13 @@ export const ImageScreens = [
       return optionalRequire(() => require('./ImageMediaLibraryScreen'));
     },
   },
+  {
+    name: 'SF Symbols',
+    route: 'image/symbols',
+    getComponent() {
+      return optionalRequire(() => require('./SymbolImageScreen'));
+    },
+  },
 ];
 
 if (Platform.OS === 'ios') {
