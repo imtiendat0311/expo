@@ -90,6 +90,10 @@ export async function getRuntimeVersionAsync(
       );
     }
     return runtimeVersion;
+  } else if (!runtimeVersion.policy) {
+    throw new Error(
+      `"${runtimeVersion}" is not a valid runtime version. Only a string or a runtime version policy is supported.`
+    );
   } else if (runtimeVersion.policy === 'fingerprintExperimental') {
     console.warn(
       `Use of the experimental '${runtimeVersion.policy}' runtime policy may result in unexpected system behavior.`
@@ -119,7 +123,7 @@ export async function resolveRuntimeVersionPolicyAsync(
     return getRuntimeVersionForSDKVersion(config.sdkVersion);
   } else {
     // fingerprintExperimental is resolvable only at build time (not in config plugin).
-    throw new Error(`Unhandled policy type for policy resolution: ${policy}`);
+    throw new Error(`"${policy}" is not a valid runtime version policy type.`);
   }
 }
 
