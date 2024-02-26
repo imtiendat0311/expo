@@ -1,5 +1,7 @@
 import React from 'react';
-import { findNodeHandle, NativeModules, requireNativeComponent, HostComponent } from 'react-native';
+import { findNodeHandle, NativeModules, HostComponent } from 'react-native';
+import { createViewConfig } from 'react-native/Libraries/NativeComponent/ViewConfig';
+import createReactNativeComponentClass from 'react-native/Libraries/Renderer/shims/createReactNativeComponentClass';
 
 import { requireNativeModule } from './requireNativeModule';
 
@@ -16,6 +18,26 @@ import { requireNativeModule } from './requireNativeModule';
  * A map that caches registered native components.
  */
 const nativeComponentsCache = new Map<string, HostComponent<any>>();
+
+function requireNativeComponent<Props>(viewName: string): HostComponent<Props> {
+  return createReactNativeComponentClass(viewName, () => {
+    // Make sure that `globalThis.expo` is available.
+    // To be removed when only the new architecture is supported.
+    // ensureNativeModulesAreInstalled();
+
+    const viewModuleName = viewName.replace('ViewManagerAdapter_', '');
+    const expoViewConfig = globalThis.expo?.getViewConfig(viewModuleName);
+
+    if (!expoViewConfig) {
+      console.warn('Unable to get the view config for %s', viewModuleName);
+    }
+
+    return createViewConfig({
+      uiViewClassName: viewName,
+      ...expoViewConfig,
+    });
+  });
+}
 
 /**
  * Requires a React Native component from cache if possible. This prevents
