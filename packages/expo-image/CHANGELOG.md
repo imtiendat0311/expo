@@ -6,8 +6,6 @@
 
 ### 🎉 New features
 
-- [iOS] Add SF Symbol support. ([#27233](https://github.com/expo/expo/pull/27233) by [@alanjhughes](https://github.com/alanjhughes))
-
 ### 🐛 Bug fixes
 
 ### 💡 Others
