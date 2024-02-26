@@ -3,6 +3,7 @@ import { screen, testRouter, renderRouter, act } from '../testing-library';
 
 describe('push', () => {
   /*
+   * Push should always push
    * @see: https://reactnavigation.org/docs/navigating/#navigate-to-a-route-multiple-times
    */
   it('can handle navigation between routes', async () => {
@@ -32,6 +33,7 @@ describe('push', () => {
 });
 
 describe('navigate', () => {
+  // Navigate ignores search params when routing.
   it('can handle navigation between routes', async () => {
     renderRouter(
       {
@@ -42,16 +44,13 @@ describe('navigate', () => {
       }
     );
 
-    testRouter.navigate('/page?a=true');
-    testRouter.navigate('/page?b=true');
-    testRouter.navigate('/page'); // We are still on page. This will search the search params but not navigate
-    testRouter.navigate('/page'); // Will not create new screen are we are already on page
-    testRouter.navigate('/page?c=true');
+    testRouter.navigate('/page?a=true'); // This rerenders, and doesn't push
+    testRouter.navigate('/page?b=true'); // This rerenders, and doesn't push
+    testRouter.navigate('/page'); // This rerenders, and doesn't push
+    testRouter.navigate('/page'); // This does nothing
+    testRouter.navigate('/page?c=true'); // This rerenders, and doesn't push
 
-    testRouter.back('/page');
-    testRouter.back('/page?a=true'); // We go back to a=true, as b=true was replaced
-    testRouter.back('/page');
-
+    // There is nothing to go back, as we only re-rerendered the same route.
     expect(testRouter.canGoBack()).toBe(false);
   });
 
@@ -86,10 +85,10 @@ describe('replace', () => {
       }
     );
 
-    testRouter.navigate('/page?a=true');
-    testRouter.navigate('/page?b=true');
+    testRouter.push('/page?a=true');
+    testRouter.push('/page?b=true');
     testRouter.replace('/page?a=true'); // This will clear the previous route
-    testRouter.navigate('/page?c=true');
+    testRouter.push('/page?c=true');
 
     testRouter.back('/page?a=true');
     testRouter.back('/page?a=true'); // It will be present twice
