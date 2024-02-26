@@ -1,4 +1,11 @@
 "use strict";
+/* eslint-disable */
+// Forked from react-navigation to add basePath functionality to web.
+// By default, on load React Navigation uses the path stored in the state. That code is commented out
+// so it falls back to calling getPathFromState
+// https://github.com/react-navigation/react-navigation/blob/6.x/packages/native/src/useLinking.tsx
+// Changed:
+//   - https://github.com/react-navigation/react-navigation/blob/13d4aa270b301faf07960b4cd861ffc91e9b2c46/packages/native/src/useLinking.tsx#L264-L283
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -27,11 +34,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.series = void 0;
-/* eslint-disable */
-// Forked from react-navigation to add basePath functionality to web.
-// By default, on load React Navigation uses the path stored in the state. That code is commented out
-// so it falls back to calling getPathFromState (lines 261:277)
-// https://github.com/react-navigation/react-navigation/blob/6.x/packages/native/src/useLinking.tsx
 const core_1 = require("@react-navigation/core");
 const ServerContext_1 = __importDefault(require("@react-navigation/native/lib/module/ServerContext"));
 const createMemoryHistory_1 = __importDefault(require("@react-navigation/native/lib/module/createMemoryHistory"));
@@ -209,21 +211,6 @@ function useLinking(ref, { independent, enabled = true, config, getStateFromPath
             return;
         }
         const getPathForRoute = (route, state) => {
-            // If the `route` object contains a `path`, use that path as long as `route.name` and `params` still match
-            // This makes sure that we preserve the original URL for wildcard routes
-            // if (route?.path) {
-            //   const stateForPath = getStateFromPathRef.current(route.path, configRef.current);
-            //   if (stateForPath) {
-            //     const focusedRoute = findFocusedRoute(stateForPath);
-            //     if (
-            //       focusedRoute &&
-            //       focusedRoute.name === route.name &&
-            //       isEqual(focusedRoute.params, route.params)
-            //     ) {
-            //       return route.path;
-            //     }
-            //   }
-            // }
             return getPathFromStateRef.current(state, configRef.current);
         };
         if (ref.current) {
