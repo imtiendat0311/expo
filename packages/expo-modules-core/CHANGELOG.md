@@ -14,6 +14,7 @@
 - [Android] Added syntactic sugar for defining a prop group. ([#27004](https://github.com/expo/expo/pull/27004) by [@lukmccall](https://github.com/lukmccall))
 - Introduced a base class for all shared objects (`expo.SharedObject`) with a simple mechanism to release native pointer from JS. ([#27038](https://github.com/expo/expo/pull/27038) by [@tsapeta](https://github.com/tsapeta))
 - [iOS] Added native implementation of the JS EventEmitter. ([#27092](https://github.com/expo/expo/pull/27092) by [@tsapeta](https://github.com/tsapeta))
+- [iOS] Added support for native modules in bridgeless mode in React Native 0.74 ([#27242](https://github.com/expo/expo/pull/27242) by [@tsapeta](https://github.com/tsapeta))
 
 ### 🐛 Bug fixes
 
