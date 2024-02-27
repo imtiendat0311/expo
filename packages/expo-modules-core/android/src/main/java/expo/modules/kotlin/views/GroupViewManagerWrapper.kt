@@ -82,15 +82,12 @@ class GroupViewManagerWrapper(
       }
   }
 
-  override fun getChildAt(parent: ViewGroup, index: Int): View? {
-    viewWrapperDelegate.viewGroupDefinition
+  override fun getChildAt(parent: ViewGroup, index: Int): View {
+    return viewWrapperDelegate.viewGroupDefinition
       ?.getChildAtAction
       ?.let {
-        return it.invoke(parent, index)
-      }
-      .ifNull {
-        return super.getChildAt(parent, index)
-      }
+        return@let it.invoke(parent, index)
+      } ?: super.getChildAt(parent, index)
   }
 
   override fun removeViewAt(parent: ViewGroup, index: Int) {
